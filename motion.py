@@ -72,7 +72,7 @@ def main(filename='default_clip.h264',preview="no",resolution='320x240',length_o
 
                 diff2 = np.where(diff>threshold,1,0)
                 pixels = len(diff2[diff2>0])
-                print(sum(diff.flatten()))
+                print(pixels)
                 ##  subtract image from background and
                 ##  get number of pixels above pixel threshold
                 

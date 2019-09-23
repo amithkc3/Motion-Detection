@@ -1,7 +1,7 @@
 Works on Raspberry Pi PiCamera
 
 To run:
-python3 motion.py
+python3 motion.py 320x240 preview
 
 parameters:
 	< parameter_name(data_type) : default_value >
