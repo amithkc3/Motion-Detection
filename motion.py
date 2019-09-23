@@ -45,7 +45,7 @@ def main(filename='default_clip.h264',preview="no",resolution='320x240',length_o
         
     with picamera.PiCamera() as camera:
         camera.resolution = (resolution_c,resolution_r)
-        camera.framerate = 30
+        camera.framerate = 20
         output_stream = picamera.PiCameraCircularIO(camera,seconds=length_of_recording)
         sleep(1)
         ##  setup camera
@@ -59,20 +59,20 @@ def main(filename='default_clip.h264',preview="no",resolution='320x240',length_o
         img_color = np.empty((resolution_r,resolution_c,3),dtype=np.uint8)
         img_gray = np.empty((resolution_r,resolution_c),dtype=np.uint8)
         diff = np.empty((resolution_r,resolution_c),dtype=np.uint8)
-        pixels = 0
+        
         
         try:
             if(preview == "preview"):
                 camera.start_preview()
             while(True):
-                
+                pixels = 0
                 camera.capture(img_color,'rgb')
                 img_gray = rgb2gray(img_color)
                 diff = np.absolute(background_gray-img_gray)
 
                 diff2 = np.where(diff>threshold,1,0)
                 pixels = len(diff2[diff2>0])
-                print(pixels)
+                print(sum(diff.flatten()))
                 ##  subtract image from background and
                 ##  get number of pixels above pixel threshold
                 
@@ -85,7 +85,6 @@ def main(filename='default_clip.h264',preview="no",resolution='320x240',length_o
                     write_to_file(output_stream,filename)
                 ##  if number of pixels is large enough record video and save
 
-                sleep(0.1)
                      
         finally:
             if(preview == "preview"):
