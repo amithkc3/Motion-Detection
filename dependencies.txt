@@ -1,2 +1,12 @@
-numpy
-picamera
+For python3.
+python3 modules:
+	picamera
+	time
+	numpy
+	io
+	sys
+	datetime
+
+to install a missing module :
+pip install <module_name>	[OR]    pip3 install <module_name>
+	
