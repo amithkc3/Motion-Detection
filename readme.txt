@@ -1,4 +1,4 @@
-Works on Raspberry Pi PiCamera
+Works on Raspberry Pi PiCamera.
 
 To run:
 python3 motion.py 
