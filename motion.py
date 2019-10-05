@@ -5,6 +5,7 @@ import io
 import sys
 from datetime import datetime as dtime
 
+PATH_BASE_DIR = "/home/pi/Desktop/motion_Detection/"
 
 def get_datestamp():
     return str(dtime.now().__format__("%d-%m-%Y")) + str(".h264")
@@ -24,10 +25,10 @@ def write_to_file(stream,filename):
                 
     try:
         print("wrote to file")
-        with io.open("clips/"+str(filename),'ab') as output:
+        with io.open(PATH_BASE_DIR+"clips/"+str(filename),'ab') as output:
             output.write(stream.read())
     except:
-        print("Couldnot open file!!!"+str(filename))
+        print("Couldnot open file!!!"+str(PATH_BASE_DIR+filename))
     ##  get location of first frame from the buffer and
     ##  write the whole h264 video object to given file(in append binary mode)
         
@@ -78,12 +79,13 @@ def main(preview="no",filename=get_datestamp(),resolution='320x240',length_of_re
 
                 diff2 = np.where(diff>threshold,1,0)
                 pixels = len(diff2[diff2>0])
-                print(pixels)
                 ##  subtract image from background and
                 ##  get number of pixels above pixel threshold
                 
                 if(pixels > number_of_pixels):
                     print("Motion detected")
+                    print("px = " + str(pixels) + "\t" + dtime.now().__format__("%H:%M:%S-%d/%m/%Y"))
+
                     output_stream.clear()
                     camera.start_recording(output_stream,format='h264')
                     start = dtime.now()
@@ -100,8 +102,7 @@ def main(preview="no",filename=get_datestamp(),resolution='320x240',length_of_re
                 ##  if number of pixels is large enough record video and save
 
 ####Added
-#                else:
-                    background_gray = (img_gray)                     
+                background_gray = (img_gray)                     
                      
         finally:
             if(preview == "preview"):
